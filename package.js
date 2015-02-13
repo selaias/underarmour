@@ -1,7 +1,7 @@
 Package.describe({
   name: 'selaias:underarmour',
   version: '0.1.0',
-  summary: 'An implementation of the Under Armour OAuth flow.',
+  summary: 'An implementation of the Under Armour (mapmyrun) OAuth flow.',
   git: 'https://github.com/selaias/underarmour.git',
   documentation: 'README.md'
 });

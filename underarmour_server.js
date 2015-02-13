@@ -7,10 +7,8 @@ UnderArmour = {};
 OAuth.registerService('underArmour', 2, null, function(query, callback) {
 
   var accessToken= getTokenResponse(query)
-console.log(accessToken)
-  var userData = getUserData(accessToken.access_token)
 
-//   var profileData = getProfileData(accessToken)
+  var userData = getUserData(accessToken.access_token)
 
   var serviceData = {
     accessToken: accessToken.access_token,
@@ -18,7 +16,7 @@ console.log(accessToken)
     expiresAt: accessToken.expires_in,
     id: userData.id
   };
-console.log(serviceData)
+
   // include fields from underarmour
   // https://developer.underarmour.com/io-docs
   var whitelisted = ['username', 'location.country', 'gender', 'birthday', 'email', 'display_name'];
@@ -76,7 +74,6 @@ var getTokenResponse = function (query) {
       error = new Meteor.Error(204, 'Response is not a valid JSON string.');
       fut.throw(error);
     } finally {
-      console.log(responseContent)
       fut.return(responseContent);
     }
   });
@@ -107,42 +104,12 @@ var getUserData = function (accessToken) {
       error = new Meteor.Error(204, 'Response is not a valid JSON string.');
       fut.throw(error);
     } finally {
-      console.log(responseContent)
       fut.return(responseContent);
     }
   });
   var userRes = fut.wait();
   return userRes;
 };
-
-//////////////////////////////////////////////// 
-// fetch profile data
-////////////////////////////////////////////////
-
-// var getProfileData = function (accessToken) {
-//   var profileFut = new Future();
-
-//   var request_profile = {
-//     method: 'GET',
-//     headers: {'Accept': 'application/vnd.com.underarmour.Profile+json',
-//               'Authorization' : 'Bearer ' + accessToken}, 'Api-Key' : config.client_id,
-//     uri: "https://api.underarmour.com/profile"
-//   };
-  
-//   request(request_profile, function(error, response, body) {
-//     var responseContent;
-//     try {
-//       responseContent = JSON.parse(body);
-//     } catch(e) {
-//       error = new Meteor.Error(204, 'Response is not a valid JSON string.');
-//       profileFut.throw(error);
-//     } finally {
-//       profileFut.return(responseContent);
-//     }
-//   });
-//   var profileRes= profileFut.wait();
-//   return profileRes;
-// };
 
 UnderArmour.retrieveCredential = function(credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);
